@@ -2,113 +2,172 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Imposter Game Generator</title>
+    <title>Imposter Game</title>
     <style>
+        * {
+          box-sizing: border-box;
+        }
+
         body {
-          font-family: Arial, sans-serif;
-          background: #111;
+          margin: 0;
+          min-height: 100vh;
+          font-family: 'Segoe UI', sans-serif;
+          background: radial-gradient(circle at top, #1b1f5c, #020024, #000);
           color: white;
-          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+        }
+
+        /* Stars */
+        body::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(1px 1px at 20% 30%, white 50%, transparent 51%),
+            radial-gradient(1px 1px at 70% 60%, white 50%, transparent 51%),
+            radial-gradient(1px 1px at 40% 80%, white 50%, transparent 51%),
+            radial-gradient(1px 1px at 80% 20%, white 50%, transparent 51%);
+          animation: twinkle 4s infinite alternate;
+          opacity: 0.6;
+          pointer-events: none;
+        }
+
+        @keyframes twinkle {
+          from { opacity: 0.4; }
+          to   { opacity: 0.8; }
+        }
+
+        .card {
+          position: relative;
+          z-index: 1;
+          background: rgba(255,255,255,0.08);
+          backdrop-filter: blur(15px);
+          border-radius: 20px;
           padding: 40px;
+          text-align: center;
+          width: 320px;
+          box-shadow: 0 0 40px rgba(0, 140, 255, 0.3);
         }
-        button {
-          padding: 10px 20px;
+
+        h1 {
+          margin-top: 0;
+          font-size: 2rem;
+          background: linear-gradient(90deg, #7df9ff, #a855f7);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        input {
+          width: 70px;
+          padding: 6px;
+          border-radius: 6px;
+          border: none;
+          text-align: center;
           font-size: 16px;
-          cursor: pointer;
-          margin: 10px;
         }
-        #card {
-          margin-top: 30px;
-          font-size: 26px;
+
+        .btn {
+          display: inline-block;
+          margin: 10px;
+          padding: 12px 24px;
+          font-size: 16px;
+          font-weight: bold;
+          color: white;
+          border: none;
+          border-radius: 30px;
+          cursor: pointer;
+          background: linear-gradient(135deg, #4facfe, #a855f7);
+          box-shadow: 0 0 15px rgba(124, 58, 237, 0.7);
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+          transform: scale(1.08);
+          box-shadow: 0 0 25px rgba(124, 58, 237, 1);
+        }
+
+        .btn:active {
+          transform: scale(0.95);
+        }
+
+        #cardText {
+          margin-top: 25px;
+          font-size: 1.4rem;
+          min-height: 60px;
         }
     </style>
 </head>
 <body>
 
-<h1>Imposter Game</h1>
+<div class="card">
+    <h1>Imposter</h1>
 
-<label>
-    Number of Players:
-    <input type="number" id="players" min="3" value="5">
-</label>
-<br><br>
+    <p>
+        Players:
+        <input type="number" id="players" min="3" value="5">
+    </p>
 
-<button onclick="startGame()">Start Game</button>
+    <button class="btn" onclick="startGame()">Start Game</button>
 
-<div id="card"></div>
+    <div id="cardText"></div>
 
-<button id="revealBtn" onclick="revealRole()" style="display:none;">
-    Reveal Word
-</button>
+    <button class="btn" id="revealBtn" onclick="revealRole()" style="display:none;">
+        Reveal Word
+    </button>
 
-<button id="nextBtn" onclick="nextPlayer()" style="display:none;">
-    Next Player
-</button>
+    <button class="btn" id="nextBtn" onclick="nextPlayer()" style="display:none;">
+        Next Player
+    </button>
+</div>
 
 <script>
     const words = [
-      "Pizza",
-      "School",
-      "Basketball",
-      "Beach",
-      "Minecraft",
-      "Robot",
-      "Airplane"
+      "Pizza", "School", "Basketball",
+      "Beach", "Minecraft", "Robot", "Airplane"
     ];
 
     let roles = [];
     let currentPlayer = 0;
-    let revealed = false;
 
     function startGame() {
-      const numPlayers = Number(document.getElementById("players").value);
+      const numPlayers = Number(players.value);
       const word = words[Math.floor(Math.random() * words.length)];
       const imposterIndex = Math.floor(Math.random() * numPlayers);
 
       roles = [];
       currentPlayer = 0;
-      revealed = false;
 
       for (let i = 0; i < numPlayers; i++) {
-        if (i === imposterIndex) {
-          roles.push("IMPOSTER 😈");
-        } else {
-          roles.push(`Word: ${word}`);
-        }
+        roles.push(i === imposterIndex ? "IMPOSTER 😈" : `Word: ${word}`);
       }
 
-      document.getElementById("card").innerText =
-        "Player 1: Tap Reveal Word";
-      document.getElementById("revealBtn").style.display = "inline-block";
-      document.getElementById("nextBtn").style.display = "none";
+      cardText.innerText = "Player 1: Tap Reveal Word";
+      revealBtn.style.display = "inline-block";
+      nextBtn.style.display = "none";
     }
 
     function revealRole() {
-      document.getElementById("card").innerText =
-        `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
-
-      revealed = true;
-      document.getElementById("revealBtn").style.display = "none";
-      document.getElementById("nextBtn").style.display = "inline-block";
+      cardText.innerText = `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
+      revealBtn.style.display = "none";
+      nextBtn.style.display = "inline-block";
     }
 
     function nextPlayer() {
       currentPlayer++;
-      revealed = false;
 
       if (currentPlayer >= roles.length) {
-        document.getElementById("card").innerText =
-          "All players have seen their roles. Start the discussion!";
-        document.getElementById("revealBtn").style.display = "none";
-        document.getElementById("nextBtn").style.display = "none";
+        cardText.innerText = "All players have seen their roles 🌠";
+        revealBtn.style.display = "none";
+        nextBtn.style.display = "none";
         return;
       }
 
-      document.getElementById("card").innerText =
-        `Player ${currentPlayer + 1}: Tap Reveal Word`;
-
-      document.getElementById("revealBtn").style.display = "inline-block";
-      document.getElementById("nextBtn").style.display = "none";
+      cardText.innerText = `Player ${currentPlayer + 1}: Tap Reveal Word`;
+      revealBtn.style.display = "inline-block";
+      nextBtn.style.display = "none";
     }
 </script>
 
