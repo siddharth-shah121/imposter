@@ -15,10 +15,11 @@
           padding: 10px 20px;
           font-size: 16px;
           cursor: pointer;
+          margin: 10px;
         }
         #card {
           margin-top: 30px;
-          font-size: 24px;
+          font-size: 26px;
         }
     </style>
 </head>
@@ -35,7 +36,14 @@
 <button onclick="startGame()">Start Game</button>
 
 <div id="card"></div>
-<button id="nextBtn" onclick="nextPlayer()" style="display:none;">Next Player</button>
+
+<button id="revealBtn" onclick="revealRole()" style="display:none;">
+    Reveal Word
+</button>
+
+<button id="nextBtn" onclick="nextPlayer()" style="display:none;">
+    Next Player
+</button>
 
 <script>
     const words = [
@@ -50,6 +58,7 @@
 
     let roles = [];
     let currentPlayer = 0;
+    let revealed = false;
 
     function startGame() {
       const numPlayers = Number(document.getElementById("players").value);
@@ -58,6 +67,7 @@
 
       roles = [];
       currentPlayer = 0;
+      revealed = false;
 
       for (let i = 0; i < numPlayers; i++) {
         if (i === imposterIndex) {
@@ -67,20 +77,38 @@
         }
       }
 
-      document.getElementById("card").innerText = "Player 1: Click Next to Reveal";
+      document.getElementById("card").innerText =
+        "Player 1: Tap Reveal Word";
+      document.getElementById("revealBtn").style.display = "inline-block";
+      document.getElementById("nextBtn").style.display = "none";
+    }
+
+    function revealRole() {
+      document.getElementById("card").innerText =
+        `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
+
+      revealed = true;
+      document.getElementById("revealBtn").style.display = "none";
       document.getElementById("nextBtn").style.display = "inline-block";
     }
 
     function nextPlayer() {
+      currentPlayer++;
+      revealed = false;
+
       if (currentPlayer >= roles.length) {
-        document.getElementById("card").innerText = "All roles assigned. Start the discussion!";
+        document.getElementById("card").innerText =
+          "All players have seen their roles. Start the discussion!";
+        document.getElementById("revealBtn").style.display = "none";
         document.getElementById("nextBtn").style.display = "none";
         return;
       }
 
       document.getElementById("card").innerText =
-        `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
-      currentPlayer++;
+        `Player ${currentPlayer + 1}: Tap Reveal Word`;
+
+      document.getElementById("revealBtn").style.display = "inline-block";
+      document.getElementById("nextBtn").style.display = "none";
     }
 </script>
 
