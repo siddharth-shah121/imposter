@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Imposter Game Generator</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: #111;
+          color: white;
+          text-align: center;
+          padding: 40px;
+        }
+        button {
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        #card {
+          margin-top: 30px;
+          font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Imposter Game</h1>
+
+<label>
+    Number of Players:
+    <input type="number" id="players" min="3" value="5">
+</label>
+<br><br>
+
+<button onclick="startGame()">Start Game</button>
+
+<div id="card"></div>
+<button id="nextBtn" onclick="nextPlayer()" style="display:none;">Next Player</button>
+
+<script>
+    const words = [
+      "Pizza",
+      "School",
+      "Basketball",
+      "Beach",
+      "Minecraft",
+      "Robot",
+      "Airplane"
+    ];
+
+    let roles = [];
+    let currentPlayer = 0;
+
+    function startGame() {
+      const numPlayers = Number(document.getElementById("players").value);
+      const word = words[Math.floor(Math.random() * words.length)];
+      const imposterIndex = Math.floor(Math.random() * numPlayers);
+
+      roles = [];
+      currentPlayer = 0;
+
+      for (let i = 0; i < numPlayers; i++) {
+        if (i === imposterIndex) {
+          roles.push("IMPOSTER 😈");
+        } else {
+          roles.push(`Word: ${word}`);
+        }
+      }
+
+      document.getElementById("card").innerText = "Player 1: Click Next to Reveal";
+      document.getElementById("nextBtn").style.display = "inline-block";
+    }
+
+    function nextPlayer() {
+      if (currentPlayer >= roles.length) {
+        document.getElementById("card").innerText = "All roles assigned. Start the discussion!";
+        document.getElementById("nextBtn").style.display = "none";
+        return;
+      }
+
+      document.getElementById("card").innerText =
+        `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
+      currentPlayer++;
+    }
+</script>
+
+</body>
+</html>
