@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Imposter Game</title>
-
     <style>
         * {
           box-sizing: border-box;
@@ -21,7 +20,6 @@
           overflow: hidden;
         }
 
-        /* Stars */
         body::before {
           content: "";
           position: absolute;
@@ -90,10 +88,6 @@
           box-shadow: 0 0 25px rgba(124, 58, 237, 1);
         }
 
-        .btn:active {
-          transform: scale(0.95);
-        }
-
         #cardText {
           margin-top: 25px;
           font-size: 1.4rem;
@@ -105,12 +99,13 @@
 
 <div class="card">
     <h1>Imposter</h1>
-    <h2>By: Sid Shah</h2>
-
 
     <p>
         Players:
         <input type="number" id="players" min="3" value="5">
+        <br><br>
+        Imposters:
+        <input type="number" id="imposters" min="1" value="1">
     </p>
 
     <button class="btn" onclick="startGame()">Start Game</button>
@@ -128,32 +123,39 @@
 
 <script>
     const words = [
-      "Pizza", "School", "Basketball", "Beach", "Minecraft", "Robot", "Airplane", "Backpack", "Notebook", "Pencil",
-"Soccer", "Swimming", "Skateboard", "Laptop", "Headphones", "Concert", "Library", "Mountain", "Camping", "Hiking",
-"Coffee", "Sandwich", "IceCream", "Cooking", "Baking", "Drawing", "Painting", "Museum", "Camera", "Photography",
-"Running", "Jogging", "Cycling", "Treadmill", "Dumbbell", "Workout", "Yoga", "Meditation", "Stretching", "Sleeping",
-"AlarmClock", "Watch", "Sunglasses", "Hat", "Jacket", "Shoes", "Socks", "Mirror", "Toothbrush", "Shampoo",
-"Soap", "Towel", "Shower", "Bathtub", "Sink", "Toilet", "Faucet", "Refrigerator", "Oven", "Microwave",
-"Blender", "Toaster", "Plate", "Fork", "Spoon", "Knife", "Cup", "Bottle", "Mug", "Thermos",
-"Waterfall", "River", "Lake", "Ocean", "Boat", "Kayak", "Surfboard", "Fishing", "Snorkeling", "Diving",
-"Volleyball", "Tennis", "Baseball", "Football", "Golf", "Bowling", "PingPong", "Badminton", "Chess", "Checkers",
-"Puzzle", "BoardGame", "CardGame", "VideoGame", "Controller", "Console", "PC", "Keyboard", "Mouse", "Monitor",
-"Printer", "Scanner", "Router", "WiFi", "Server", "Cloud", "Database", "Kite", "Prom", "Programming",
-"Cobra", "Python", "Christianity", "India", "Arduino", "Sensor", "Motor", "Battery", "Wire", "Circuit",
-"Screwdriver", "Hammer", "Wrench", "Drill", "Saw", "Toolbox", "Nails", "Bolts", "Screws", "Tape",
-"Glue", "Scissors", "Ruler", "Calculator", "Backyard", "Garden", "Planting", "Watering", "Mowing", "Trimming",
-"Tree", "Flower", "Grass", "Leaf", "Rock", "Stone", "Pebble", "Sand", "Dirt", "Mud",
-"Snow", "Ice", "Rain", "Thunder", "Lightning", "Rainbow", "Sunshine", "Cloud", "Storm", "Wind",
-"Kite", "Drone", "RCcar", "Train", "Bus", "Subway", "Taxi", "Bicycle", "Motorcycle", "Scooter",
-"Helmet", "Seatbelt", "GasStation", "RoadTrip", "Navigation", "Map", "Compass", "Backpacking", "Suitcase", "Passport",
-"Airport", "Runway", "Boarding", "Takeoff", "Landing", "Pilot", "Flight", "WindowSeat", "Aisle", "Turbulence",
-"Hotel", "Resort", "Hostel", "Motel", "CheckIn", "RoomKey", "Elevator", "Stairs", "Hallway", "Balcony",
-"Television", "Remote", "Streaming", "Movie", "Cinema", "Popcorn", "Theater", "Stage", "Curtain", "Spotlight",
-"Music", "Guitar", "Piano", "Drums", "Violin", "Trumpet", "Microphone", "Speaker", "Amplifier", "Playlist",
-"Podcast", "Radio", "Broadcast", "News", "Weather", "Forecast", "Calendar", "Reminder", "Notification", "Message",
-"Email", "Inbox", "Attachment", "Meeting", "Presentation", "Project", "Deadline", "Homework", "Exam", "Graduation",
-"Certificate", "Diploma", "NotebookPaper", "Highlighter", "Whiteboard", "Marker", "Eraser", "Stapler", "Binder", "Folder"
-
+      "apple", "chair", "galaxy", "notebook", "volcano", "mirror", "backpack", "satellite", "keyboard", "lantern",
+"pyramid", "bicycle", "telescope", "fountain", "jacket", "compass", "library", "pillow", "calendar", "elevator",
+"helmet", "canyon", "blanket", "glacier", "cupboard", "waterfall", "microscope", "hammer", "suitcase", "lighthouse",
+"window", "bridge", "bracelet", "dungeon", "carpet", "orchard", "thermometer", "cave", "mug", "firewall",
+"snowflake", "desert", "spoon", "circuit", "planet", "engine", "ladder", "statue", "meadow", "pencil",
+"umbrella", "corridor", "engineer", "river", "island", "passport", "wallet", "submarine", "camera", "battery",
+"forest", "rocket", "helmet", "anchor", "harbor", "companion", "algorithm", "network", "server", "database",
+"beacon", "monument", "trophy", "stadium", "microchip", "console", "joystick", "pixel", "shader", "compiler",
+"router", "antenna", "signal", "frequency", "notion", "theory", "hypothesis", "paradox", "equation", "variable",
+"constant", "function", "vector", "matrix", "scalar", "tensor", "gradient", "integral", "derivative", "limit",
+"cookie", "sandwich", "lasagna", "noodle", "dumpling", "pancake", "waffle", "omelet", "burrito", "taco",
+"salsa", "cheese", "pepper", "onion", "garlic", "ginger", "cinnamon", "nutmeg", "clove", "paprika",
+"dragon", "unicorn", "phoenix", "griffin", "mermaid", "centaur", "goblin", "troll", "wizard", "knight",
+"sword", "shield", "armor", "helmet", "banner", "castle", "fortress", "tower", "moat", "drawbridge",
+"robot", "android", "cyborg", "drone", "satellite", "probe", "asteroid", "comet", "nebula", "blackhole",
+"quasar", "pulsar", "orbit", "eclipse", "supernova", "starlight", "moonbeam", "sunspot", "constellation", "zodiac",
+"beaver", "otter", "badger", "raccoon", "squirrel", "hedgehog", "porcupine", "weasel", "ferret", "mink",
+"elephant", "giraffe", "zebra", "rhino", "hippo", "lion", "tiger", "leopard", "cheetah", "panther",
+"keyboard", "mouse", "monitor", "speaker", "microphone", "headphone", "webcam", "printer", "scanner", "projector",
+"cursor", "window", "button", "slider", "checkbox", "dropdown", "toolbar", "sidebar", "dashboard", "interface",
+"school", "hallway", "locker", "textbook", "notepad", "whiteboard", "marker", "eraser", "homework", "syllabus",
+"backyard", "garage", "driveway", "basement", "attic", "chimney", "doorbell", "doormat", "mailbox", "fence",
+"ocean", "beach", "shore", "reef", "tide", "current", "wave", "foam", "sandbar", "seashell",
+"clock", "watch", "hourglass", "calendar", "alarm", "timer", "stopwatch", "deadline", "schedule", "agenda",
+"emotion", "memory", "thought", "dream", "idea", "belief", "habit", "instinct", "curiosity", "intuition",
+"justice", "freedom", "honor", "truth", "wisdom", "courage", "patience", "kindness", "respect", "empathy",
+"coin", "currency", "wallet", "ledger", "invoice", "receipt", "budget", "salary", "expense", "profit",
+"market", "auction", "vendor", "customer", "merchant", "product", "service", "subscription", "contract", "license",
+"storm", "thunder", "lightning", "rainfall", "snowstorm", "hailstone", "breeze", "gust", "cyclone", "tornado",
+"mountain", "hill", "plateau", "valley", "ridge", "summit", "cliff", "slope", "trail", "pathway",
+"train", "railway", "station", "platform", "ticket", "conductor", "engine", "carriage", "track", "signal",
+"airport", "runway", "terminal", "boarding", "luggage", "cockpit", "pilot", "aircraft", "turbine", "propeller",
+"novel", "poem", "essay", "manuscript", "chapter", "paragraph", "sentence", "phrase", "word", "letter"
     ];
 
     let roles = [];
@@ -161,23 +163,32 @@
 
     function startGame() {
       const numPlayers = Number(players.value);
-      const word = words[Math.floor(Math.random() * words.length)];
-      const imposterIndex = Math.floor(Math.random() * numPlayers);
+      const numImposters = Number(imposters.value);
 
-      roles = [];
-      currentPlayer = 0;
-
-      for (let i = 0; i < numPlayers; i++) {
-        roles.push(i === imposterIndex ? "IMPOSTER 😈" : `Word: ${word}`);
+      if (numImposters >= numPlayers) {
+        alert("Imposters must be fewer than players!");
+        return;
       }
 
+      const word = words[Math.floor(Math.random() * words.length)];
+      roles = Array(numPlayers).fill(`Word: ${word}`);
+
+      // ONLY NEW LOGIC: pick multiple imposters
+      const chosen = new Set();
+      while (chosen.size < numImposters) {
+        chosen.add(Math.floor(Math.random() * numPlayers));
+      }
+      chosen.forEach(i => roles[i] = "IMPOSTER 😈");
+
+      currentPlayer = 0;
       cardText.innerText = "Player 1: Tap Reveal Word";
       revealBtn.style.display = "inline-block";
       nextBtn.style.display = "none";
     }
 
     function revealRole() {
-      cardText.innerText = `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
+      cardText.innerText =
+        `Player ${currentPlayer + 1}: ${roles[currentPlayer]}`;
       revealBtn.style.display = "none";
       nextBtn.style.display = "inline-block";
     }
@@ -186,13 +197,15 @@
       currentPlayer++;
 
       if (currentPlayer >= roles.length) {
-        cardText.innerText = "All players have seen their roles 🌠";
+        cardText.innerText =
+          "All players have seen their roles 🌠";
         revealBtn.style.display = "none";
         nextBtn.style.display = "none";
         return;
       }
 
-      cardText.innerText = `Player ${currentPlayer + 1}: Tap Reveal Word`;
+      cardText.innerText =
+        `Player ${currentPlayer + 1}: Tap Reveal Word`;
       revealBtn.style.display = "inline-block";
       nextBtn.style.display = "none";
     }
