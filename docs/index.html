@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Imposter Game</title>
+
     <style>
-        * { box-sizing: border-box; }
+        * {
+          box-sizing: border-box;
+          -webkit-tap-highlight-color: transparent;
+        }
 
         body {
           margin: 0;
@@ -16,6 +21,7 @@
           align-items: center;
           justify-content: center;
           overflow: hidden;
+          padding: 16px;
         }
 
         body::before {
@@ -40,42 +46,50 @@
         .card {
           position: relative;
           z-index: 1;
+          width: 100%;
+          max-width: 420px;
           background: rgba(255,255,255,0.08);
           backdrop-filter: blur(15px);
-          border-radius: 20px;
-          padding: 40px;
+          border-radius: 22px;
+          padding: 28px 22px;
           text-align: center;
-          width: 320px;
           box-shadow: 0 0 40px rgba(0, 140, 255, 0.3);
         }
 
         h1 {
           margin: 0;
-          font-size: 2rem;
+          font-size: 2.1rem;
           background: linear-gradient(90deg, #7df9ff, #a855f7);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
 
         .byline {
-          font-size: 0.85rem;
+          font-size: 0.9rem;
           opacity: 0.7;
           margin-bottom: 20px;
         }
 
+        p {
+          font-size: 1.05rem;
+        }
+
         input {
-          width: 70px;
-          padding: 6px;
-          border-radius: 6px;
+          width: 90px;
+          padding: 10px;
+          border-radius: 10px;
           border: none;
           text-align: center;
-          font-size: 16px;
+          font-size: 18px;
+          margin-top: 6px;
         }
 
         .btn {
-          margin: 10px;
-          padding: 12px 24px;
-          font-size: 16px;
+          width: 100%;
+          max-width: 260px;
+          margin: 10px auto;
+          padding: 14px 24px;
+          font-size: 17px;
           font-weight: bold;
           color: white;
           border: none;
@@ -86,30 +100,34 @@
           transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn:hover {
-          transform: scale(1.08);
-          box-shadow: 0 0 25px rgba(124, 58, 237, 1);
+        .btn:active {
+          transform: scale(0.96);
         }
 
         #cardText {
-          margin-top: 25px;
-          min-height: 90px;
+          margin-top: 22px;
+          min-height: 100px;
         }
 
         .player-label {
-          font-size: 1.2rem;
+          font-size: 1.3rem;
           opacity: 0.85;
         }
 
-        /* NEW: distinct highlight for revealed roles */
         .role {
-          margin-top: 12px;
-          font-size: 1.6rem;
+          margin-top: 14px;
+          font-size: 1.8rem;
           font-weight: bold;
-          padding: 12px;
-          border-radius: 14px;
+          padding: 14px;
+          border-radius: 16px;
           background: linear-gradient(135deg, #ff6a88, #ff9a3c);
           box-shadow: 0 0 25px rgba(255, 140, 60, 0.9);
+        }
+
+        /* Small phones */
+        @media (max-width: 360px) {
+          h1 { font-size: 1.8rem; }
+          .role { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -120,10 +138,10 @@
     <div class="byline">by: Sid Shah</div>
 
     <p>
-        Players:
+        Players<br>
         <input type="number" id="players" min="3" value="5">
         <br><br>
-        Imposters:
+        Imposters<br>
         <input type="number" id="imposters" min="1" value="1">
     </p>
 
@@ -139,7 +157,6 @@
         Next Player
     </button>
 
-    <!-- NEW GAME BUTTON -->
     <button class="btn" id="newGameBtn" onclick="location.reload()" style="display:none;">
         New Game
     </button>
@@ -195,8 +212,7 @@
       currentPlayer++;
 
       if (currentPlayer >= roles.length) {
-        cardText.innerText =
-          "All players have seen their roles 🌠";
+        cardText.innerText = "All players have seen their roles 🌠";
         revealBtn.style.display = "none";
         nextBtn.style.display = "none";
         startBtn.style.display = "none";
