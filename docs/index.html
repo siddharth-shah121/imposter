@@ -93,7 +93,7 @@
 
         #cardText {
           margin-top: 25px;
-          min-height: 80px;
+          min-height: 90px;
         }
 
         .player-label {
@@ -101,14 +101,15 @@
           opacity: 0.85;
         }
 
+        /* NEW: distinct highlight for revealed roles */
         .role {
-          margin-top: 10px;
+          margin-top: 12px;
           font-size: 1.6rem;
           font-weight: bold;
-          padding: 10px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #4facfe, #a855f7);
-          box-shadow: 0 0 20px rgba(124, 58, 237, 0.8);
+          padding: 12px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, #ff6a88, #ff9a3c);
+          box-shadow: 0 0 25px rgba(255, 140, 60, 0.9);
         }
     </style>
 </head>
@@ -136,6 +137,11 @@
 
     <button class="btn" id="nextBtn" onclick="nextPlayer()" style="display:none;">
         Next Player
+    </button>
+
+    <!-- NEW GAME BUTTON -->
+    <button class="btn" id="newGameBtn" onclick="location.reload()" style="display:none;">
+        New Game
     </button>
 </div>
 
@@ -173,6 +179,7 @@
 
       revealBtn.style.display = "inline-block";
       nextBtn.style.display = "none";
+      newGameBtn.style.display = "none";
     }
 
     function revealRole() {
@@ -192,7 +199,8 @@
           "All players have seen their roles 🌠";
         revealBtn.style.display = "none";
         nextBtn.style.display = "none";
-        startBtn.style.display = "none"; // ONLY hidden here
+        startBtn.style.display = "none";
+        newGameBtn.style.display = "inline-block";
         return;
       }
 
