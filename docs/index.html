@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <title>Imposter Game</title>
     <style>
-        * {
-          box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
           margin: 0;
@@ -53,10 +51,17 @@
 
         h1 {
           margin-top: 0;
+          margin-bottom: 5px;
           font-size: 2rem;
           background: linear-gradient(90deg, #7df9ff, #a855f7);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+
+        .byline {
+          font-size: 0.85rem;
+          opacity: 0.7;
+          margin-bottom: 20px;
         }
 
         input {
@@ -99,6 +104,7 @@
 
 <div class="card">
     <h1>Imposter</h1>
+    <div class="byline">by: Sid Shah</div>
 
     <p>
         Players:
@@ -108,7 +114,7 @@
         <input type="number" id="imposters" min="1" value="1">
     </p>
 
-    <button class="btn" onclick="startGame()">Start Game</button>
+    <button class="btn" id="startBtn" onclick="startGame()">Start Game</button>
 
     <div id="cardText"></div>
 
@@ -123,39 +129,8 @@
 
 <script>
     const words = [
-      "apple", "chair", "galaxy", "notebook", "volcano", "mirror", "backpack", "satellite", "keyboard", "lantern",
-"pyramid", "bicycle", "telescope", "fountain", "jacket", "compass", "library", "pillow", "calendar", "elevator",
-"helmet", "canyon", "blanket", "glacier", "cupboard", "waterfall", "microscope", "hammer", "suitcase", "lighthouse",
-"window", "bridge", "bracelet", "dungeon", "carpet", "orchard", "thermometer", "cave", "mug", "firewall",
-"snowflake", "desert", "spoon", "circuit", "planet", "engine", "ladder", "statue", "meadow", "pencil",
-"umbrella", "corridor", "engineer", "river", "island", "passport", "wallet", "submarine", "camera", "battery",
-"forest", "rocket", "helmet", "anchor", "harbor", "companion", "algorithm", "network", "server", "database",
-"beacon", "monument", "trophy", "stadium", "microchip", "console", "joystick", "pixel", "shader", "compiler",
-"router", "antenna", "signal", "frequency", "notion", "theory", "hypothesis", "paradox", "equation", "variable",
-"constant", "function", "vector", "matrix", "scalar", "tensor", "gradient", "integral", "derivative", "limit",
-"cookie", "sandwich", "lasagna", "noodle", "dumpling", "pancake", "waffle", "omelet", "burrito", "taco",
-"salsa", "cheese", "pepper", "onion", "garlic", "ginger", "cinnamon", "nutmeg", "clove", "paprika",
-"dragon", "unicorn", "phoenix", "griffin", "mermaid", "centaur", "goblin", "troll", "wizard", "knight",
-"sword", "shield", "armor", "helmet", "banner", "castle", "fortress", "tower", "moat", "drawbridge",
-"robot", "android", "cyborg", "drone", "satellite", "probe", "asteroid", "comet", "nebula", "blackhole",
-"quasar", "pulsar", "orbit", "eclipse", "supernova", "starlight", "moonbeam", "sunspot", "constellation", "zodiac",
-"beaver", "otter", "badger", "raccoon", "squirrel", "hedgehog", "porcupine", "weasel", "ferret", "mink",
-"elephant", "giraffe", "zebra", "rhino", "hippo", "lion", "tiger", "leopard", "cheetah", "panther",
-"keyboard", "mouse", "monitor", "speaker", "microphone", "headphone", "webcam", "printer", "scanner", "projector",
-"cursor", "window", "button", "slider", "checkbox", "dropdown", "toolbar", "sidebar", "dashboard", "interface",
-"school", "hallway", "locker", "textbook", "notepad", "whiteboard", "marker", "eraser", "homework", "syllabus",
-"backyard", "garage", "driveway", "basement", "attic", "chimney", "doorbell", "doormat", "mailbox", "fence",
-"ocean", "beach", "shore", "reef", "tide", "current", "wave", "foam", "sandbar", "seashell",
-"clock", "watch", "hourglass", "calendar", "alarm", "timer", "stopwatch", "deadline", "schedule", "agenda",
-"emotion", "memory", "thought", "dream", "idea", "belief", "habit", "instinct", "curiosity", "intuition",
-"justice", "freedom", "honor", "truth", "wisdom", "courage", "patience", "kindness", "respect", "empathy",
-"coin", "currency", "wallet", "ledger", "invoice", "receipt", "budget", "salary", "expense", "profit",
-"market", "auction", "vendor", "customer", "merchant", "product", "service", "subscription", "contract", "license",
-"storm", "thunder", "lightning", "rainfall", "snowstorm", "hailstone", "breeze", "gust", "cyclone", "tornado",
-"mountain", "hill", "plateau", "valley", "ridge", "summit", "cliff", "slope", "trail", "pathway",
-"train", "railway", "station", "platform", "ticket", "conductor", "engine", "carriage", "track", "signal",
-"airport", "runway", "terminal", "boarding", "luggage", "cockpit", "pilot", "aircraft", "turbine", "propeller",
-"novel", "poem", "essay", "manuscript", "chapter", "paragraph", "sentence", "phrase", "word", "letter"
+      "Pizza", "School", "Basketball",
+      "Beach", "Minecraft", "Robot", "Airplane"
     ];
 
     let roles = [];
@@ -173,7 +148,6 @@
       const word = words[Math.floor(Math.random() * words.length)];
       roles = Array(numPlayers).fill(`Word: ${word}`);
 
-      // ONLY NEW LOGIC: pick multiple imposters
       const chosen = new Set();
       while (chosen.size < numImposters) {
         chosen.add(Math.floor(Math.random() * numPlayers));
@@ -181,6 +155,7 @@
       chosen.forEach(i => roles[i] = "IMPOSTER 😈");
 
       currentPlayer = 0;
+      startBtn.style.display = "none";
       cardText.innerText = "Player 1: Tap Reveal Word";
       revealBtn.style.display = "inline-block";
       nextBtn.style.display = "none";
